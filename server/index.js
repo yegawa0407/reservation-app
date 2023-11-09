@@ -1,9 +1,11 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 const config = require('./config/dev')
 const FakeDB = require('./fake-db')
 
 const productRoutes = require('./routes/products')
+const userRoutes = require('./routes/users')
 
 mongoose.connect(config.DB_URI, {
     useNewUrlParser: true,
@@ -16,8 +18,10 @@ mongoose.connect(config.DB_URI, {
 )
 
 const app = express()
+app.use(bodyParser.json())
 
 app.use('/api/v1/products', productRoutes)
+app.use('/api/v1/users', userRoutes)
 
 app.get('/products', function(req, res) {
     res.json({'success': true})
